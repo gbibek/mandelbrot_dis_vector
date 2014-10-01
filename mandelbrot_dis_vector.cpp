@@ -75,7 +75,7 @@ int  main(){
       for(unsigned int k = 0;k<v.size();k++)
       {  
                    
-         if(v[k] ==maxiteration)
+         if(v[k] == maxiteration)
          {
             NewColor.Red = 0;
             NewColor.Green = 0;
@@ -97,7 +97,7 @@ int  main(){
       
       }
    }
-   std::cout<<"Time it tool to do hpx "<<t.elapsed()<<"sec"<<std::endl;
+   std::cout<<"Time it took to do hpx "<<t.elapsed()<<"sec"<<std::endl;
    std::cout<<"Size of Vector  = "<<v.size()<<std::endl;
    draw_fractal.WriteToFile("fractel.bmp");
 
