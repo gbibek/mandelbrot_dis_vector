@@ -90,24 +90,17 @@ int  main(){
   
     hpx::vector v(40000, hpx::block(200,localities));
 
-//    hpx::vector v1(1296, hpx::cyclic(5,localities));
-
-//    hpx::vector v2(7517, hpx::block_cyclic(42,9,localities));
-    
-//    hpx::vector v3(517, hpx::block_cyclic(47,7,localities));
- 
-//    hpx::vector v4(89, hpx::block_cyclic(4,4,localities));
     hpx::util::high_resolution_timer t;
     {
-      hpx::for_each(v.begin(), v.end() , mandel);
+        hpx::for_each(v.begin(), v.end() , mandel);
 
-      std::cout<<"Now placing pixel "<<std::endl;       
+        std::cout<<"Now placing pixel "<<std::endl;       
      
-      hpx::for_each(v.begin(), v.end(), dpixel);      
-   }
-   std::cout<<"Time it tool to do hpx "<<t.elapsed()<<"sec"<<std::endl;
-   std::cout<<"Size of Vector  = "<<v.size()<<std::endl;
-   draw_fractal.WriteToFile("fractel.bmp");
+        hpx::for_each(v.begin(), v.end(), dpixel);      
+    }
+    std::cout<<"Time it tool to do hpx "<<t.elapsed()<<"sec"<<std::endl;
+    std::cout<<"Size of Vector  = "<<v.size()<<std::endl;
+    draw_fractal.WriteToFile("fractel.bmp");
 
      
     return 0;
