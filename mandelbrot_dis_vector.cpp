@@ -32,8 +32,8 @@ struct mandelbrot
         double temp;
         int i = std::get<0>(t)%Size_X;
         int j = std::get<0>(t)/Size_Y;
-        double x0 = (double)(i)*3.5/(double)Size_X-2.5;
-        double y0 = (double)(j)*2.0/(double)Size_Y-1.0;
+        double x0 = (double)(i)*3.0/(double)Size_X-2.25;
+        double y0 = (double)(j)*2.5/(double)Size_Y-1.25;
        // Zr = Zr+Cr;
        // Zi = Zi+Ci;
           
@@ -84,9 +84,9 @@ int  main(){
             hpx::find_all_localities(); 
     draw_fractal.SetBitDepth(24);         
     draw_fractal.SetSize(Size_X, Size_Y);                  // set image size
-   
-  
-    hpx::vector v(640000, hpx::block(800,localities));
+     
+    
+    hpx::vector v(640000, hpx::cyclic(800,localities));
 
     hpx::util::high_resolution_timer t;
     {
