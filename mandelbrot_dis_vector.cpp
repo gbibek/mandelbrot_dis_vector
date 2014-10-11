@@ -10,17 +10,14 @@
 
 #define VAL_TYPE double
 
-
 typedef std::size_t size_type;
-
 size_t Size_X = 800;
 size_t Size_Y = 800;
-
 BMP draw_fractal;
 RGBApixel NewColor;
 int maxiteration = 400;
 
-
+// does the pixel calculation 
 struct mandelbrot
 {
     void operator () (std::tuple<int, double>& t )
@@ -68,9 +65,7 @@ struct draw_pixel
 }dpixel;
 
 int  main(){
-    
-    std::vector<hpx::naming::id_type> localities =
-            hpx::find_all_localities(); 
+    std::vector<hpx::naming::id_type> localities =  hpx::find_all_localities(); 
     draw_fractal.SetBitDepth(24);         
     draw_fractal.SetSize(Size_X, Size_Y);                  // set image size
     hpx::vector v(640000, hpx::block_cyclic(50,800,localities));
