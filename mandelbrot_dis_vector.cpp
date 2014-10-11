@@ -13,12 +13,12 @@
 
 typedef std::size_t size_type;
 
-size_t Size_X = 200;
-size_t Size_Y = 200;
+size_t Size_X = 800;
+size_t Size_Y = 800;
 
 BMP draw_fractal;
 RGBApixel NewColor;
-int maxiteration = 300;
+int maxiteration = 400;
 
 
 struct mandelbrot
@@ -26,25 +26,23 @@ struct mandelbrot
     void operator () (std::tuple<int, double>& t )
     {
        // std::cout<<"i = "<< i << " ,from locality "<<hpx::find_here()<<std::endl;
-        double Zr = 0.0;
-        double Zi = 0.0;
+        double x  = 0.0;
+        double y  = 0.0;
         int times = 0;
         double temp;
-        int x0 = std::get<0>(t)%Size_X;
-        int y0 = std::get<0>(t)/Size_Y;
-        double Cr = (double)(x0)*3.5/(double)Size_X-2.5;
-        double Ci = (double)(y0)*2.0/(double)Size_Y-1.0;
-        int maxiteration = 300;
-        Zr = Zr+Cr;
-        Zi = Zi+Ci;
+        int i = std::get<0>(t)%Size_X;
+        int j = std::get<0>(t)/Size_Y;
+        double x0 = (double)(i)*3.5/(double)Size_X-2.5;
+        double y0 = (double)(j)*2.0/(double)Size_Y-1.0;
+       // Zr = Zr+Cr;
+       // Zi = Zi+Ci;
           
-        while ((((Zr*Zr)+(Zi*Zi))<=4) && (times < maxiteration))
+        while ((((x*x)+(y*y))<=4) && (times < maxiteration))
         {
           
-            temp  = (Zr*Zr)-(Zi*Zi);
-            Zi    = 2*Zr*Zi;
-            Zr    = temp+Cr;
-            Zi    = Zi+Ci;                 
+            temp  = (x*x)-(y*y) + x0;
+            y     = 2*x*y + y0;
+            x     = temp;
             times = times+1;  
         }
         std::get<1>(t) =  times;
@@ -88,7 +86,7 @@ int  main(){
     draw_fractal.SetSize(Size_X, Size_Y);                  // set image size
    
   
-    hpx::vector v(40000, hpx::block(200,localities));
+    hpx::vector v(640000, hpx::block(800,localities));
 
     hpx::util::high_resolution_timer t;
     {
