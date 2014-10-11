@@ -25,7 +25,6 @@ struct mandelbrot
 {
     void operator () (std::tuple<int, double>& t )
     {
-       // std::cout<<"i = "<< i << " ,from locality "<<hpx::find_here()<<std::endl;
         double x  = 0.0;
         double y  = 0.0;
         int times = 0;
@@ -33,10 +32,7 @@ struct mandelbrot
         int i = std::get<0>(t)%Size_X;
         int j = std::get<0>(t)/Size_Y;
         double x0 = (double)(i)*3.0/(double)Size_X-2.25;
-        double y0 = (double)(j)*2.5/(double)Size_Y-1.25;
-       // Zr = Zr+Cr;
-       // Zi = Zi+Ci;
-          
+        double y0 = (double)(j)*2.5/(double)Size_Y-1.25;  
         while ((((x*x)+(y*y))<=4) && (times < maxiteration))
         {
           
@@ -46,35 +42,28 @@ struct mandelbrot
             times = times+1;  
         }
         std::get<1>(t) =  times;
-//        std::cout<<times<<std::endl;
     }
 }mandel;
 
 struct draw_pixel
 {
-
     void operator() (std::tuple<int, double>& t)
-    {
-                            
+    {                           
         if(std::get<1>(t) == maxiteration)
-        {
-                                                
+        {                                           
             NewColor.Red = 0;
             NewColor.Green = 0;
             NewColor.Blue = 0;
             NewColor.Alpha = 0;
-            draw_fractal.SetPixel(std::get<0>(t)%Size_X, std::get<0>(t)/Size_Y, NewColor);
-                                                                                                                     
+            draw_fractal.SetPixel(std::get<0>(t)%Size_X, std::get<0>(t)/Size_Y, NewColor);                                                                                                            
         }
         else {
             NewColor.Red = 10;
             NewColor.Green = 11;
             NewColor.Blue = 160;
             NewColor.Alpha = 10;
-            draw_fractal.SetPixel(std::get<0>(t)%Size_X, std::get<0>(t)/Size_Y, NewColor);
-                                                                                                                                                              
+            draw_fractal.SetPixel(std::get<0>(t)%Size_X, std::get<0>(t)/Size_Y, NewColor);                                                                                                                                                     
         }
-                                
     }
 }dpixel;
 
@@ -84,9 +73,7 @@ int  main(){
             hpx::find_all_localities(); 
     draw_fractal.SetBitDepth(24);         
     draw_fractal.SetSize(Size_X, Size_Y);                  // set image size
-     
-    
-    hpx::vector v(640000, hpx::cyclic(800,localities));
+    hpx::vector v(640000, hpx::block_cyclic(50,800,localities));
 
     hpx::util::high_resolution_timer t;
     {
@@ -100,6 +87,5 @@ int  main(){
     std::cout<<"Size of Vector  = "<<v.size()<<std::endl;
     draw_fractal.WriteToFile("fractel.bmp");
 
-     
     return 0;
 }
