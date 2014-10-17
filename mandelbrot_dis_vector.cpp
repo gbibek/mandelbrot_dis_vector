@@ -78,7 +78,7 @@ int  main(){
      
         hpx::for_each(v.begin(), v.end(), dpixel);      
     }
-    std::cout<<"Time it tool to do hpx "<<t.elapsed()<<"sec"<<std::endl;
+    std::cout<<"Time it took to do hpx "<<t.elapsed()<<"sec"<<std::endl;
     std::cout<<"Size of Vector  = "<<v.size()<<std::endl;
     draw_fractal.WriteToFile("fractel.bmp");
 
